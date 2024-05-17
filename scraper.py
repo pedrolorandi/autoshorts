@@ -43,6 +43,7 @@ def get_horoscope_from_souce2():
   return horoscope
 
 def get_horoscope():
+  clear_and_wait()
   horoscope_source1 = get_horoscope_from_souce1()
   horoscope_source2 = get_horoscope_from_souce2()
 
