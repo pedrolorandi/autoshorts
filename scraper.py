@@ -1,13 +1,8 @@
 # Scrape horoscope from pages and return the horoscope text for each zodiac sign
 
 import requests
+from helper import zodiac_signs, clear_and_wait
 from bs4 import BeautifulSoup
-
-# List of zodiac signs in order corresponding to the sign_id
-zodiac_signs = [
-  'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
-  'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
-]
 
 def get_horoscope_from_souce1():
   horoscope = {}
@@ -58,4 +53,5 @@ def get_horoscope():
       'text': horoscope_source1[sign] + " " + horoscope_source2[sign],
     }
 
+  clear_and_wait()
   return horoscope
