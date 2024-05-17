@@ -1,12 +1,8 @@
-from scraper import fetch_product_details
+from scraper import get_horoscope
   
-# URL of the page to scrape
-url = 'https://www.amazon.ca/Ashwagandha-Absorption-Resistant-Increases-Enhancement/dp/B09V3C98LC'
-
 # Run the scraper
 def main():
-  soup = fetch_product_details(url)
-  print(soup)
+  get_horoscope()
 
 if __name__ == '__main__':
   main()

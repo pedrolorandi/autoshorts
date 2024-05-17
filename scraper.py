@@ -1,20 +1,42 @@
-# Scrape Amazon's information page for a product
+# Scrape horoscope from pages and return the horoscope text for each zodiac sign
 
 import requests
 from bs4 import BeautifulSoup
 
-def fetch_product_details(url):
+# List of zodiac signs in order corresponding to the sign_id
+zodiac_signs = [
+  'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
+  'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
+]
 
-  # Add a header to mimic a real user request
-  headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3',
-    'Accept-Language': 'en-US,en;q=0.5',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-  }
+def get_horoscope_from_souce1():
+  horoscope = {}
 
-  response = requests.get(url, headers=headers)
+  # Source 01 => Horoscope.com
+  base_url = 'https://www.horoscope.com/us/horoscopes/general/horoscope-general-daily-today.aspx?sign='
 
-  if response.status_code == 200:
+  for sign_id in range(1, 13):
+    response = requests.get(f"{base_url}{sign_id}")
     soup = BeautifulSoup(response.content, 'html.parser')
 
-    return soup.prettify()
+    # Extract the horoscope text
+    full_text = soup.find('div', class_='content').find_next('p').text.strip()
+    horoscope_text = full_text.split(' - ', 1)[1].strip()
+
+    # Store the horoscope text in a dictionary
+    sign_name = zodiac_signs[sign_id - 1]
+    horoscope[sign_name] = horoscope_text
+  return horoscope
+
+def get_horoscope():
+  horoscope_source1 = get_horoscope_from_souce1()
+  print(horoscope_source1)
+
+  # horoscope = {}
+
+  # for sign in zodiac_signs:
+  #   horoscope[sign] = {
+  #     text: horoscope_source1[sign]
+  #   }
+
+  # return horoscope
