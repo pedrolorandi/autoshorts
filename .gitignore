@@ -5,3 +5,7 @@ __pycache__/
 
 # Environments
 .env
+
+# json and log files
+*.json
+*.log
