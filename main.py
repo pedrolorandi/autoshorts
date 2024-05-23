@@ -6,6 +6,7 @@ from state import load_state, save_state, clear_state
 # Run the scraper
 def main():
   state = load_state()
+  clear_state()
 
   # Scrape horoscope and save the state
   horoscope = get_horoscope()

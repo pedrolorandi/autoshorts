@@ -49,9 +49,9 @@ def get_horoscope():
 
   horoscope = {}
 
-  for sign in zodiac_signs:
-    horoscope[sign] = {
-      'text': horoscope_source1[sign] + " " + horoscope_source2[sign],
+  for sign_name in zodiac_signs:
+    horoscope[sign_name] = {
+      'text': horoscope_source1[sign_name] + " " + horoscope_source2[sign_name],
     }
 
   clear_and_wait()

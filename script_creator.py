@@ -23,7 +23,7 @@ def create_script(horoscope):
             ]
         )
 
-        script = scripts[sign_name] = response.choices[0].message['content']
+        scripts[sign_name] = {'script': response.choices[0].message['content']}
 
     clear_and_wait()
     return scripts
