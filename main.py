@@ -15,7 +15,7 @@ def main():
 
   # Create script and save the state
   script = create_script(state['horoscope'])
-  state['script'] = script
+  state['scripts'] = script
   save_state(state)
 
 if __name__ == '__main__':
