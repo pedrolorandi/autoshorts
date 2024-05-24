@@ -1,13 +1,17 @@
+from dotenv import load_dotenv
 from helper import clear_and_wait
+from state import load_state, save_state, clear_state
 from scraper import get_horoscope
 from script_creator import create_script
 from phrase_creator import create_phrases
 from audio_creator import create_audio
-from state import load_state, save_state, clear_state
   
 # Run the scraper
 def main():
   try:
+    # Load environment variables from .env file
+    load_dotenv()
+
     state = load_state()
     clear_state()
 
