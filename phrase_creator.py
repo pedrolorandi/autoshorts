@@ -1,3 +1,4 @@
+import re
 from helper import zodiac_signs, clear_and_wait
 
 def create_phrases(scripts):
@@ -13,8 +14,11 @@ def create_phrases(scripts):
     else:
       script = scripts[sign_name]['script']
 
-      # Split the script into phrases after each punctuation and strip whitespace
-      phrases[sign_name] = {'phrases': [phrase.strip() for phrase in script.split('. ') if phrase.strip()]}
+      # Split the script into phrases after each period
+      script_split = re.split(r'(?<=\.)\s+', script)
+
+      # Remove any empty phrases
+      phrases[sign_name] = {'phrases': [phrase.strip() for phrase in script_split if phrase.strip()]}
 
   clear_and_wait()  # Clear console or perform any necessary cleanup
   return phrases
