@@ -1,10 +1,8 @@
-# Scrape horoscope from pages and return the horoscope text for each zodiac sign
-
 import requests
 from helper import zodiac_signs, clear_and_wait
 from bs4 import BeautifulSoup
 
-def get_horoscope_from_souce1():
+def get_horoscope_from_source1():
   horoscope = {}
 
   # Source 01 => Horoscope.com
@@ -16,7 +14,7 @@ def get_horoscope_from_souce1():
     try:
       print(f"Scraping {sign_name} from Horoscope.com")
       response = requests.get(f"{base_url}{sign_id}")
-      response.raise_for_status()
+      response.raise_for_status()  # Raise an HTTPError for bad responses (4xx and 5xx)
       soup = BeautifulSoup(response.content, 'html.parser')
 
       # Extract the horoscope text
@@ -31,7 +29,7 @@ def get_horoscope_from_souce1():
 
   return horoscope
 
-def get_horoscope_from_souce2():
+def get_horoscope_from_source2():
   horoscope = {}
 
   # Source 02 => Astrostyle.com
@@ -41,7 +39,7 @@ def get_horoscope_from_souce2():
     try:
       print(f"Scraping {sign_name} from Astrostyle.com")
       response = requests.get(f"{base_url}{sign_name.lower()}/")
-      response.raise_for_status()
+      response.raise_for_status()  # Raise an HTTPError for bad responses (4xx and 5xx)
       soup = BeautifulSoup(response.content, 'html.parser')
 
       # Extract the horoscope text
@@ -56,16 +54,17 @@ def get_horoscope_from_souce2():
   return horoscope
 
 def get_horoscope():
-  clear_and_wait()
-  horoscope_source1 = get_horoscope_from_souce1()
-  horoscope_source2 = get_horoscope_from_souce2()
+  clear_and_wait()  # Clear console or perform any necessary setup
+  horoscope_source1 = get_horoscope_from_source1()
+  horoscope_source2 = get_horoscope_from_source2()
 
   horoscope = {}
 
   for sign_name in zodiac_signs:
+    # Combine texts from both sources
     horoscope[sign_name] = {
       'text': horoscope_source1[sign_name] + " " + horoscope_source2[sign_name],
     }
 
-  clear_and_wait()
+  clear_and_wait()  # Clear console or perform any necessary cleanup
   return horoscope
