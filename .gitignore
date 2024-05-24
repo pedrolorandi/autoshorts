@@ -9,3 +9,6 @@ __pycache__/
 # json and log files
 *.json
 *.log
+
+# audio files
+audio/
