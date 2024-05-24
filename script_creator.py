@@ -18,7 +18,7 @@ def create_script(horoscope):
       response = openai.ChatCompletion.create(
         model="gpt-4o",
         messages=[
-          {"role": "system", "content": "You are a professional astrologer. The user will send you some information and your job is to rewrite it in a more professional manner. The script should contain 120 words. DO NOT ADD ANY NEW INFORMATION. DO NOT ADD NEW LINES. DO NOT ADD SIGNATURES. DO NOT ADD ANY TYPE OF QUOTES. DO NOT ADD SPECIAL CHARACTERS. DO NOT ADD EMOJI."},
+          {"role": "system", "content": "You are a professional astrologer. The user will send you some information and your job is to rewrite it in a more professional manner. The script should contain 120 words. CREATE SENTENCES WITH 6 to 8 WORDS ONLY. MAKE SURE TO USE SIMPLE WORDS IN A CLEVER WAY. MAKE THE SCRIPT EASY TO UNDERSTAND. DO NOT ADD ANY NEW INFORMATION. DO NOT ADD NEW LINES. DO NOT ADD SIGNATURES. DO NOT ADD ANY TYPE OF QUOTES. DO NOT ADD SPECIAL CHARACTERS. DO NOT ADD EMOJI."},
           {"role": "user", "content": horoscope[sign_name]['text']}
         ]
       )
