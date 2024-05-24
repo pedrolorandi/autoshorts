@@ -12,7 +12,9 @@ def create_phrases(scripts):
       phrases[sign_name] = {'phrases': []}
     else:
       script = scripts[sign_name]['script']
+
       # Split the script into phrases after each punctuation and strip whitespace
       phrases[sign_name] = {'phrases': [phrase.strip() for phrase in script.split('. ') if phrase.strip()]}
 
+  clear_and_wait()  # Clear console or perform any necessary cleanup
   return phrases
