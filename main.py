@@ -1,17 +1,14 @@
-from dotenv import load_dotenv
 from helper import clear_and_wait
 from state import load_state, save_state, clear_state
 from scraper import get_horoscope
 from script_creator import create_script
 from phrase_creator import create_phrases
 from audio_creator import create_audio
+from image_creator import create_image
   
 # Run the scraper
 def main():
   try:
-    # Load environment variables from .env file
-    load_dotenv()
-
     state = load_state()
     clear_state()
 
@@ -32,6 +29,9 @@ def main():
 
     # Create audio
     create_audio(state['phrases'])
+
+    # Create image
+    create_image(state['phrases'])
 
   except Exception as e:
     print(f"An error occurred: {e}")
