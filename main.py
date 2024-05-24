@@ -25,6 +25,9 @@ def main():
     state['phrases'] = phrases
     save_state(state)
 
+    for phrase in state['phrases']['Leo']['phrases']:
+      print(phrase)
+
   except Exception as e:
     print(f"An error occurred: {e}")
 
