@@ -1,6 +1,6 @@
 import os
-from elevenlabs import Voice, VoiceSettings
 from elevenlabs.client import ElevenLabs
+from elevenlabs import save, Voice, VoiceSettings
 from helper import zodiac_signs, clear_and_wait
 
 def create_audio(phrases):
@@ -19,16 +19,19 @@ def create_audio(phrases):
     phrases_number = len(phrases[sign_name]['phrases'])
 
     for i, phrase in enumerate(phrases[sign_name]['phrases']):
+      print(phrase.strip())
       print(f"Creating audio for {sign_name} ({i + 1}/{phrases_number})")
       audio = client.generate(
-        text=phrase,
-        voice=Voice(voice_id='24C3xoIzMQGcoH3tAbyB'),
+        text=phrase.strip(),
+        voice=Voice(
+          voice_id='gj8rBFVprjSvDpHXxlro', 
+          settings=VoiceSettings(stability=0.4, similarity_boost=0.7, style=0.0, use_speaker_boost=False),
+        ),
         model="eleven_multilingual_v2",
       )
 
       # Save the audio file in WAV format
-      with open(f'audio/{sign_name}_{i}.wav', 'wb') as f:
-        f.write(audio)
+      save(audio, f"{audio_folder}/{sign_name}_{i}.wav")
 
   clear_and_wait()  # Clear console or perform any necessary cleanup
   return True   
