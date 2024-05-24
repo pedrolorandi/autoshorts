@@ -2,6 +2,7 @@ from helper import clear_and_wait
 from scraper import get_horoscope
 from script_creator import create_script
 from phrase_creator import create_phrases
+from audio_creator import create_audio
 from state import load_state, save_state, clear_state
   
 # Run the scraper
@@ -25,8 +26,8 @@ def main():
     state['phrases'] = phrases
     save_state(state)
 
-    for phrase in state['phrases']['Leo']['phrases']:
-      print(phrase)
+    # Create audio
+    create_audio(state['phrases'])
 
   except Exception as e:
     print(f"An error occurred: {e}")
