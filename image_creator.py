@@ -31,7 +31,7 @@ def create_image(phrases):
         print(f"Creating image for {sign_name} ({i + 1}/{phrases_number})")
         response = openai.Image.create(
           model="dall-e-3",
-          prompt=f"Do not include any text in the image. Create an image for this phrase: '{phrase}' in the highest resolution. The style of the images should be a blend of surrealism and fantasy with elements of digital art. The image should feature a serene and reflective scene with surreal elements. The landscape should have an ethereal quality with vibrant colors and detailed composition. Use atmospheric lighting to create a sense of calm and introspection, incorporating symbolism to convey themes of self-assessment, progress, and personal growth.",
+          prompt=f"Do not include any text in the image. Do not create diagrams. Create ONE image only for this phrase: '{phrase}' in the highest resolution. The style of the images should be a blend of surrealism and fantasy with elements of digital art. The image should feature a serene and reflective scene with surreal elements. The landscape should have an ethereal quality with vibrant colors and detailed composition. Use atmospheric lighting to create a sense of calm and introspection, incorporating symbolism to convey themes of self-assessment, progress, and personal growth.",
           size="1024x1024",
           quality="standard",
           response_format="b64_json",
