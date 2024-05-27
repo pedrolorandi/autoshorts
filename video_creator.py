@@ -16,11 +16,10 @@ def create_video(phrases):
 
   # Collect all image and audio files for the sign
   for sign_name in zodiac_signs:
+    video_clips = []
     phrases_number = len(phrases[sign_name]['phrases'])
 
-    # Create a list of image clips
-    image_clips = []
-    for i, phrase in enumerate(phrases[sign_name]['phrases']):
+    for i in range(phrases_number):
       image_path = f"{image_folder}/{sign_name}_{i}.jpg"
       audio_path = f"{audio_folder}/{sign_name}_{i}.wav"
 
@@ -29,16 +28,16 @@ def create_video(phrases):
       video_duration = audio_clip.duration
 
       # Create an image clip
-      image_clip = ImageClip(image_path)
-      image_clip = image_clip.set_duration(video_duration)  # Set the duration of the image clip
-      image_clips.append(image_clip)
-
-      # Create an audio clip
-      audio_clip = AudioFileClip(audio_path)
-      audio_clip = audio_clip.set_duration(video_duration)  # Set the duration of the audio clip
+      image_clip = ImageClip(image_path).set_duration(video_duration)
 
       # Combine the image and audio clips
-      video_clip = image_clip.set_audio(audio_clip)
+      video_clip = CompositeVideoClip([image_clip.set_audio(audio_clip)])
 
-      # Save the video clip
-      video_clip.write_videofile(f"{video_folder}/{sign_name}_{i}.mp4", codec='libx264', fps=24)
+      # Add the video clip to the list
+      video_clips.append(video_clip)
+    
+    # Concatenate all video clips for the sign
+    concatenated_clip = concatenate_videoclips(video_clips)
+    concatenated_clip.write_videofile(f"{video_folder}/{sign_name}.mp4", codec='libx264', fps=24)
+
+  clear_and_wait()  # Clear console or perform any necessary cleanup
