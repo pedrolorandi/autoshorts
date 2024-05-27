@@ -10,8 +10,9 @@ __pycache__/
 *.json
 *.log
 
-# audio and image files
+# media files
 audio/
 image/
+video/
 *.wav
 *.mp3
