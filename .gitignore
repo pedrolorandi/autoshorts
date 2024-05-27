@@ -13,3 +13,5 @@ __pycache__/
 # audio and image files
 audio/
 image/
+*.wav
+*.mp3
