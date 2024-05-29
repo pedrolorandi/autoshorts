@@ -29,9 +29,15 @@ def create_image(phrases):
     for i, phrase in enumerate(phrases[sign_name]['phrases']):
       try:
         print(f"Creating image for {sign_name} ({i + 1}/{phrases_number})")
+
+        prompt = f"DO NOT INCLUDE TEXT OR PARAGRAPHS OF ANY KIND. DO NOT CREATE DIAGRAMS. Create ONE image only for this phrase: '{phrase}' in the highest resolution. The style of the images should be a blend of surrealism and fantasy with elements of digital art. Use atmospheric lighting to create a sense of calm and introspection. Make the image towared the female public. THE MAIN IDEA OF THE IMAGE SHOULD BE CENTERED HORIZONTALLY. DO NOT INCLUDE TEXT OR PARAGRAPHS OF ANY KIND."
+
+        if i == 0:
+          prompt = "CREATE A VERY INTRIGUING AND CAPTIVATING IMAGE THAT MAKES THE VIEWER STOP SCROLLING IMMEDIATELY. MAKE IT SAFE FOR WORK. " + prompt
+
         response = openai.Image.create(
           model="dall-e-3",
-          prompt=f"DO NOT INCLUDE TEXT. DO NOT CREATE DIAGRAMS. Create ONE image only for this phrase: '{phrase}' in the highest resolution. The style of the images should be a blend of surrealism and fantasy with elements of digital art. Use atmospheric lighting to create a sense of calm and introspection. MAKE SURE THE IMAGE REFLECTS THE IDEA OF THE TEXT. Make the image towared the female public.",
+          prompt=prompt,
           size="1024x1024",
           quality="standard",
           response_format="b64_json",
