@@ -1,7 +1,7 @@
 import os
 from helper import zodiac_signs, clear_and_wait
 from moviepy.editor import ImageClip, AudioFileClip, concatenate_videoclips, TextClip, CompositeVideoClip
-from moviepy.video.fx.all import crop
+from moviepy.video.fx.all import crop, rotate
 
 def create_video(phrases):
   clear_and_wait()  # Clear console or perform any necessary setup
@@ -35,7 +35,8 @@ def create_video(phrases):
       image_clip = ImageClip(image_path).set_duration(video_duration)
 
       # Moving across the image
-      image_clip = image_clip.set_position(lambda t: ('center', t * 10 + 50))
+      image_clip = image_clip.resize(lambda t: 1 + (0.047 * t))
+      image_clip = image_clip.set_position(('center'))
 
       # Combine the image and audio clips
       video_clip = CompositeVideoClip([image_clip.set_audio(audio_clip)])
@@ -56,7 +57,7 @@ def create_video(phrases):
     # Crop the video clip to the frame size
     concatenated_clip = crop(concatenated_clip, x1=x1, y1=y1, x2=x2, y2=y2)
 
-    # Save the concatenated video cli
-    concatenated_clip.write_videofile(f"{video_folder}/{sign_name}.mp4", codec='libx264', fps=24)
+    # Save the concatenated video clip
+    concatenated_clip.write_videofile(f"{video_folder}/{sign_name}.mp4", codec='libx264', fps=24, threads=4)
 
   clear_and_wait()  # Clear console or perform any necessary cleanup
