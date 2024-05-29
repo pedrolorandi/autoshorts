@@ -8,12 +8,12 @@ def get_horoscope_from_source1():
   # Source 01 => Horoscope.com
   base_url = 'https://www.horoscope.com/us/horoscopes/general/horoscope-general-daily-today.aspx?sign='
 
-  for sign_id in range(1, 13):
-    sign_name = zodiac_signs[sign_id - 1]
+  for sign_id in range(0, len(zodiac_signs)):
+    sign_name = zodiac_signs[sign_id]
 
     try:
       print(f"Scraping {sign_name} from Horoscope.com")
-      response = requests.get(f"{base_url}{sign_id}")
+      response = requests.get(f"{base_url}{sign_id + 1}")
       response.raise_for_status()  # Raise an HTTPError for bad responses (4xx and 5xx)
       soup = BeautifulSoup(response.content, 'html.parser')
 
