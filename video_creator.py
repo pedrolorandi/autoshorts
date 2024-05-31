@@ -1,17 +1,28 @@
 import os
+from dotenv import load_dotenv
+import openai
 from helper import zodiac_signs, clear_and_wait
 from moviepy.editor import ImageClip, AudioFileClip, VideoFileClip, TextClip, concatenate_videoclips, CompositeVideoClip, CompositeAudioClip
 from moviepy.video.fx.all import crop
 
-def process_clip(image_path, audio_path):
+# Load environment variables from .env file
+load_dotenv()
+
+# Set OpenAI API key from environment variables
+openai.api_key = os.getenv('OPENAI_API_KEY')
+
+def process_clip(image_path, audio_path, phrases):
   # Process an image and audio file into a video clip
   audio_clip = AudioFileClip(audio_path).set_start(0.5)
   video_duration = audio_clip.duration + 1
 
   image_clip = ImageClip(image_path).set_duration(video_duration)
   image_clip = image_clip.resize(lambda t: 1 + (0.047 * t)).set_position(('center'))
-  
-  return CompositeVideoClip([image_clip.set_audio(audio_clip)])
+
+  # Get the timings for each phrase
+  timings = get_phrases_timings(audio_path, phrases)
+
+  # return CompositeVideoClip([image_clip.set_audio(audio_clip)])
 
 def crop_clip(video_clip, frame_size):
   # Crop the video clip to the specified frame size
@@ -28,6 +39,20 @@ def prepare_particle_clip(particle_video_path, frame_size):
   particle_clip = VideoFileClip(particle_video_path)
   particle_clip = particle_clip.resize(width=frame_size[0], height=frame_size[1])
   return crop_clip(particle_clip, frame_size)
+
+def get_phrases_timings(audio_path, phrases):
+  client = openai.OpenAI()
+
+  print(f"Transcribing audio for {audio_path}")
+  audio_file = open(audio_path, "rb")
+  transcript = client.audio.transcriptions.create(
+    file=audio_file,
+    model="whisper-1",
+    response_format="verbose_json",
+    timestamp_granularities=["word"]
+  )
+  print(transcript.words)
+  # return timings
 
 def create_video(phrases):
   clear_and_wait()  # Clear console or perform any necessary setup
@@ -54,7 +79,7 @@ def create_video(phrases):
     for i in range(len(phrases[sign_name]['phrases'])):
       image_path = f"{image_folder}/{sign_name}_{i}.jpg"
       audio_path = f"{audio_folder}/{sign_name}_{i}.wav"
-      video_clips.append(process_clip(image_path, audio_path))
+      video_clips.append(process_clip(image_path, audio_path, phrases[sign_name]['phrases']))
     
     concatenated_clip = concatenate_videoclips(video_clips)
     concatenated_clip = crop_clip(concatenated_clip, frame_size)
