@@ -56,8 +56,8 @@ def split_sentences(timings, delay):
         'start': current_start_time + delay, 
         'end': end_time + delay
       })
-    current_sentence = ""
-    current_start_time = None
+      current_sentence = ""
+      current_start_time = None
 
   if current_sentence:
     sentences.append({
@@ -72,7 +72,7 @@ def create_text_clip(text, start_time, end_time, font_size, color, opacity, offs
   """
   Create a TextClip with specified properties and position offset.
   """
-  clip = TextClip(text, fontsize=font_size, color=color, font='Franklin-Gothic-Heavy').set_opacity(opacity)
+  clip = TextClip(text.lower(), fontsize=font_size, color=color, font='Franklin-Gothic-Heavy').set_opacity(opacity)
   return clip.set_start(start_time).set_end(end_time).set_position(lambda t: (offset[0], offset[1]))
 
 def create_captions(audio_path, frame_size, delay=0.5):
@@ -81,10 +81,10 @@ def create_captions(audio_path, frame_size, delay=0.5):
   """
   timings = get_phrases_timings(audio_path)
   sentences = split_sentences(timings, delay)
-  
+
   text_clips = []
   for sentence in sentences:
-    text = sentence['sentence'].lower()
+    text = sentence['sentence']
     start_time = sentence['start']
     end_time = sentence['end']
     shadow_clip = create_text_clip(text, start_time, end_time, 40, 'black', 0.5, (3, 3))
@@ -98,6 +98,7 @@ def process_clip(image_path, audio_path, frame_size, delay=0.5):
   """
   Process an image and audio file into a video clip with captions.
   """
+  print(f"Processing {image_path} and {audio_path}")
   audio_clip = AudioFileClip(audio_path).set_start(delay)
   video_duration = audio_clip.duration + (delay * 2)
 
