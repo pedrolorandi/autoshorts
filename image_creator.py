@@ -13,6 +13,25 @@ load_dotenv()
 # Set OpenAI API key from environment variables
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
+def get_current_moon_phase():
+  """
+  Get the current moon phase using the OpenAI API.
+  """
+  try:
+    print("Getting the current moon phase")
+    response = openai.ChatCompletion.create(
+      model="gpt-3.5-turbo-0125",
+      messages=[
+        {"role": "system", "content": "You are an assistant. The user will ask you for the current moon phase. RETURN THE MOON PHASE ONLY. DO NOT ADD ANY ADDITIONAL INFORMATION. DO NOT ADD ANY NEW LINES. DO NOT ADD SIGNATURES. DO NOT ADD ANY TYPE OF QUOTES. DO NOT ADD SPECIAL CHARACTERS. DO NOT ADD EMOJI."},
+        {"role": "user", "content": "What is the current moon phase?"}
+      ]
+    )
+    # Decode the script text to handle any Unicode issues
+    print(response.choices[0].message['content'])
+  except Exception as e:
+    print(f"An error occurred while getting the moon phase: {e}")
+  return None
+
 def create_image(phrases):
   clear_and_wait()  # Clear console or perform any necessary setup
 
